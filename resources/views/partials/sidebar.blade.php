@@ -17,11 +17,11 @@
             <a href="{{ route('tickets.index') }}"
                class="{{ request()->routeIs('tickets.index', 'tickets.show') ? 'active' : '' }}">
                 <i class="bi bi-ticket-detailed"></i>
-                {{ $user?->isStaff() ? 'Daftar Tiket' : 'Tiket Saya' }}
+                {{ $user->isStaff() ? 'Daftar Tiket' : 'Tiket Saya' }}
             </a>
         </li>
 
-        @unless ($user?->isStaff())
+        @unless ($user->isStaff())
             <li>
                 <a href="{{ route('tickets.create') }}"
                    class="{{ request()->routeIs('tickets.create') ? 'active' : '' }}">
@@ -31,34 +31,34 @@
         @endunless
 
         <li>
-            {{-- Tahap 4: halaman keluhan umum --}}
-            <a href="#"><i class="bi bi-chat-left-text"></i> Keluhan Umum</a>
+            <a href="{{ route('complaints.index') }}"
+               class="{{ request()->routeIs('complaints.*') ? 'active' : '' }}">
+                <i class="bi bi-chat-left-text"></i> Keluhan Umum
+            </a>
         </li>
 
-        @if ($user?->isAdmin())
+        @if ($user->isAdmin())
             <li>
                 <a href="{{ route('categories.index') }}"
                    class="{{ request()->routeIs('categories.*') ? 'active' : '' }}">
                     <i class="bi bi-tags"></i> Kelola Kategori
                 </a>
             </li>
-            <li>
-                {{-- Tahap 4: kelola user --}}
-                <a href="#"><i class="bi bi-people"></i> Kelola User</a>
-            </li>
         @endif
 
         <li>
-            {{-- Tahap 4: profil --}}
-            <a href="#"><i class="bi bi-person"></i> Profil</a>
+            <a href="{{ route('profile.edit') }}"
+               class="{{ request()->routeIs('profile.*') ? 'active' : '' }}">
+                <i class="bi bi-person"></i> Profil
+            </a>
         </li>
     </ul>
 
     <div class="sidebar-user">
         <i class="bi bi-person-circle fs-3"></i>
         <div>
-            {{ $user?->name ?? 'Tamu' }}
-            <small>{{ $user ? ucfirst($user->role) : '-' }}</small>
+            {{ $user->name }}
+            <small>{{ ucfirst($user->role) }}</small>
         </div>
     </div>
 </aside>

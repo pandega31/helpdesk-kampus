@@ -8,8 +8,21 @@
         </div>
     </form>
 
-    <div class="d-flex align-items-center gap-2">
-        <i class="bi bi-person-circle fs-4 text-secondary"></i>
-        <span>{{ auth()->user()?->name ?? 'Tamu' }}</span>
+    <div class="dropdown">
+        <a href="#" class="d-flex align-items-center gap-2 text-decoration-none text-dark dropdown-toggle"
+           data-bs-toggle="dropdown">
+            <i class="bi bi-person-circle fs-4 text-secondary"></i>
+            <span>{{ auth()->user()->name }}</span>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" href="{{ route('profile.edit') }}">Profil</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="dropdown-item text-danger">Keluar</button>
+                </form>
+            </li>
+        </ul>
     </div>
 </header>
