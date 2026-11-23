@@ -38,6 +38,11 @@ class CategoryController extends Controller
 
     public function destroy(Category $category)
     {
+        if ($category->tickets()->exists()) {
+            return redirect()->route('categories.index')
+                ->with('error', 'Kategori tidak bisa dihapus karena masih dipakai oleh tiket.');
+        }
+
         $category->delete();
 
         return redirect()->route('categories.index')
