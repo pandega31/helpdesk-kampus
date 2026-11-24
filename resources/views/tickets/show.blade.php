@@ -3,7 +3,10 @@
 @section('title', 'Tiket #' . $ticket->id)
 
 @section('content')
-    @php $user = auth()->user(); @endphp
+    @php
+        $user  = auth()->user();
+        $label = ['open' => 'Dibuat', 'proses' => 'Diproses', 'selesai' => 'Selesai'];
+    @endphp
 
     <nav class="small text-muted mb-2">
         <a href="{{ route('dashboard') }}" class="text-decoration-none">Dashboard</a> /
@@ -11,15 +14,19 @@
         Tiket #{{ $ticket->id }}
     </nav>
 
-    <div class="d-flex align-items-center gap-2">
-        <span class="badge badge-{{ $ticket->prioritas }}">{{ ucfirst($ticket->prioritas) }}</span>
-        <span class="badge badge-{{ $ticket->status }}">{{ ucfirst($ticket->status) }}</span>
-        <a href="{{ route('tickets.pdf', $ticket) }}" class="btn btn-sm btn-outline-secondary">
-            <i class="bi bi-download"></i> Download PDF
-        </a>
+    <div class="d-flex justify-content-between align-items-start mb-3">
+        <h1 class="h3 mb-0">{{ $ticket->judul }}</h1>
+        <div class="d-flex align-items-center gap-2">
+            <span class="badge badge-{{ $ticket->prioritas }}">{{ ucfirst($ticket->prioritas) }}</span>
+            <span class="badge badge-{{ $ticket->status }}">{{ ucfirst($ticket->status) }}</span>
+            <a href="{{ route('tickets.pdf', $ticket) }}" class="btn btn-sm btn-outline-secondary">
+                <i class="bi bi-download"></i> Download PDF
+            </a>
+        </div>
     </div>
 
     <div class="row g-4">
+        {{-- Kolom kiri: percakapan dan form balasan --}}
         <div class="col-8">
             <div class="card card-body mb-3">
                 {{-- Pesan pertama: deskripsi dari pelapor --}}
@@ -28,10 +35,11 @@
                         {{ $ticket->user->name }} (Pelapor) &middot; {{ $ticket->created_at->format('d M Y, H:i') }}
                     </div>
                     <div class="bubble-body">{{ $ticket->deskripsi }}</div>
+
                     @if ($ticket->lampiran)
                         <a href="{{ asset('storage/' . $ticket->lampiran) }}" target="_blank">
                             <img src="{{ asset('storage/' . $ticket->lampiran) }}" alt="Lampiran tiket"
-                                class="img-fluid rounded border mt-2" style="max-height: 260px;">
+                                 class="img-fluid rounded border mt-2" style="max-height: 260px;">
                         </a>
                     @endif
                 </div>
@@ -87,6 +95,7 @@
             @endif
         </div>
 
+        {{-- Kolom kanan: informasi tiket dan riwayat status --}}
         <div class="col-4">
             <div class="card card-body">
                 <h2 class="h6 mb-3">Informasi Tiket</h2>
@@ -99,23 +108,21 @@
                     <dd class="mb-0">{{ $ticket->user->name }}</dd>
                 </dl>
             </div>
-        </div>
 
-        <div class="card card-body mt-3">
-            <h2 class="h6 mb-3">Riwayat Status</h2>
-            @php $label = ['open' => 'Dibuat', 'proses' => 'Diproses', 'selesai' => 'Selesai']; @endphp
-
-            <ul class="timeline small mb-0">
-                @forelse ($ticket->statusLogs as $log)
-                    <li>
-                        <strong>{{ $label[$log->status] }}</strong>
-                        <div class="text-muted">{{ $log->user->name }}</div>
-                        <div class="text-muted">{{ $log->created_at->format('d M Y, H:i') }}</div>
-                    </li>
-                @empty
-                    <li class="text-muted">Belum ada riwayat.</li>
-                @endforelse
-            </ul>
+            <div class="card card-body mt-3">
+                <h2 class="h6 mb-3">Riwayat Status</h2>
+                <ul class="timeline small mb-0">
+                    @forelse ($ticket->statusLogs as $log)
+                        <li>
+                            <strong>{{ $label[$log->status] }}</strong>
+                            <div class="text-muted">{{ $log->user->name }}</div>
+                            <div class="text-muted">{{ $log->created_at->format('d M Y, H:i') }}</div>
+                        </li>
+                    @empty
+                        <li class="text-muted">Belum ada riwayat.</li>
+                    @endforelse
+                </ul>
+            </div>
         </div>
     </div>
 @endsection
