@@ -28,6 +28,12 @@
                         {{ $ticket->user->name }} (Pelapor) &middot; {{ $ticket->created_at->format('d M Y, H:i') }}
                     </div>
                     <div class="bubble-body">{{ $ticket->deskripsi }}</div>
+                    @if ($ticket->lampiran)
+                        <a href="{{ asset('storage/' . $ticket->lampiran) }}" target="_blank">
+                            <img src="{{ asset('storage/' . $ticket->lampiran) }}" alt="Lampiran tiket"
+                                class="img-fluid rounded border mt-2" style="max-height: 260px;">
+                        </a>
+                    @endif
                 </div>
 
                 @foreach ($ticket->replies as $reply)

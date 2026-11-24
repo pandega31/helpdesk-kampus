@@ -13,7 +13,7 @@ class Ticket extends Model
     public const PRIORITAS = ['rendah', 'sedang', 'tinggi'];
     public const STATUS = ['open', 'proses', 'selesai'];
 
-    protected $fillable = ['category_id', 'judul', 'deskripsi', 'prioritas', 'status'];
+    protected $fillable = ['category_id', 'judul', 'deskripsi', 'lampiran', 'prioritas', 'status'];
 
     public function user(): BelongsTo
     {
