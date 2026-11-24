@@ -8,7 +8,7 @@
     <div class="row g-4">
         <div class="col-8">
             <div class="card card-body">
-                <form action="{{ route('tickets.store') }}" method="POST">
+                <form action="{{ route('tickets.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
 
                     <div class="mb-3">
@@ -60,6 +60,16 @@
                                   class="form-control @error('deskripsi') is-invalid @enderror"
                                   placeholder="Jelaskan keluhan secara rinci...">{{ old('deskripsi') }}</textarea>
                         @error('deskripsi')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="lampiran" class="form-label">Lampiran Foto (opsional)</label>
+                        <input type="file" name="lampiran" id="lampiran" accept="image/png,image/jpeg"
+                            class="form-control @error('lampiran') is-invalid @enderror">
+                        <div class="form-text">Format JPG atau PNG, maksimal 2 MB.</div>
+                        @error('lampiran')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>

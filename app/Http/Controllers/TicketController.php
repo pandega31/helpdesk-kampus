@@ -36,7 +36,13 @@ class TicketController extends Controller
 
     public function store(StoreTicketRequest $request)
     {
-        $ticket = $request->user()->tickets()->create($request->validated());
+        $data = $request->validated();
+
+        if ($request->hasFile('lampiran')) {
+            $data['lampiran'] = $request->file('lampiran')->store('lampiran', 'public');
+        }
+
+        $ticket = $request->user()->tickets()->create($data);
 
         $ticket->statusLogs()->create([
             'user_id' => $request->user()->id,
