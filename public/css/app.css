@@ -115,3 +115,13 @@ body {
 .bubble-staff { background: #dbeafe; margin-left: auto; }
 .bubble-meta { font-size: .8rem; color: #64748b; margin-bottom: .25rem; }
 .bubble-body { white-space: pre-line; }
+
+.stat-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: .75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+}
