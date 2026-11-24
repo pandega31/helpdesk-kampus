@@ -21,6 +21,11 @@ class TicketReplyController extends Controller
 
         if ($user->isStaff() && $request->filled('status') && $request->status !== $ticket->status) {
             $ticket->update(['status' => $request->status]);
+
+            $ticket->statusLogs()->create([
+                'user_id' => $user->id,
+                'status'  => $request->status,
+            ]);
         }
 
         return redirect()->route('tickets.show', $ticket)

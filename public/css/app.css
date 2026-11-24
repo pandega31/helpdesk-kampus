@@ -125,3 +125,23 @@ body {
     justify-content: center;
     font-size: 1.4rem;
 }
+
+/* Timeline status */
+.timeline {
+    list-style: none;
+    margin: 0;
+    padding: 0 0 0 1.25rem;
+    border-left: 2px solid #e2e8f0;
+}
+.timeline li { position: relative; padding-bottom: 1rem; }
+.timeline li:last-child { padding-bottom: 0; }
+.timeline li::before {
+    content: '';
+    position: absolute;
+    left: calc(-1.25rem - 7px);
+    top: .3rem;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #1d4ed8;
+}

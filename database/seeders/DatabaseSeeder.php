@@ -43,6 +43,27 @@ class DatabaseSeeder extends Seeder
             ->create();
 
         foreach ($tickets as $ticket) {
+            // Timeline status
+            $waktu = $ticket->created_at->copy();
+            $logs  = [['open', $ticket->user_id, $waktu]];
+
+            if (in_array($ticket->status, ['proses', 'selesai'])) {
+                $logs[] = ['proses', $petugas->id, $waktu->copy()->addHour()];
+            }
+            if ($ticket->status === 'selesai') {
+                $logs[] = ['selesai', $petugas->id, $waktu->copy()->addHours(5)];
+            }
+
+            foreach ($logs as [$status, $userId, $at]) {
+                $ticket->statusLogs()->forceCreate([
+                    'user_id'    => $userId,
+                    'status'     => $status,
+                    'created_at' => $at,
+                    'updated_at' => $at,
+                ]);
+            }
+
+            // Balasan
             $jumlah = $ticket->status === 'open' ? 0 : fake()->numberBetween(1, 4);
 
             for ($i = 0; $i < $jumlah; $i++) {

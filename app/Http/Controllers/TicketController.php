@@ -38,6 +38,11 @@ class TicketController extends Controller
     {
         $ticket = $request->user()->tickets()->create($request->validated());
 
+        $ticket->statusLogs()->create([
+            'user_id' => $request->user()->id,
+            'status'  => 'open',
+        ]);
+
         return redirect()->route('tickets.show', $ticket)
             ->with('success', 'Tiket berhasil dibuat.');
     }
@@ -46,7 +51,7 @@ class TicketController extends Controller
     {
         abort_unless($ticket->isViewableBy($request->user()), 403);
 
-        $ticket->load(['user', 'category', 'replies.user']);
+        $ticket->load(['user', 'category', 'replies.user', 'statusLogs.user']);
 
         return view('tickets.show', compact('ticket'));
     }

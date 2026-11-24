@@ -34,4 +34,9 @@ class Ticket extends Model
     {
         return $user->isStaff() || $this->user_id === $user->id;
     }
+
+    public function statusLogs(): HasMany
+    {
+        return $this->hasMany(TicketStatusLog::class)->oldest();
+    }
 }
