@@ -94,5 +94,22 @@
                 </dl>
             </div>
         </div>
+
+        <div class="card card-body mt-3">
+            <h2 class="h6 mb-3">Riwayat Status</h2>
+            @php $label = ['open' => 'Dibuat', 'proses' => 'Diproses', 'selesai' => 'Selesai']; @endphp
+
+            <ul class="timeline small mb-0">
+                @forelse ($ticket->statusLogs as $log)
+                    <li>
+                        <strong>{{ $label[$log->status] }}</strong>
+                        <div class="text-muted">{{ $log->user->name }}</div>
+                        <div class="text-muted">{{ $log->created_at->format('d M Y, H:i') }}</div>
+                    </li>
+                @empty
+                    <li class="text-muted">Belum ada riwayat.</li>
+                @endforelse
+            </ul>
+        </div>
     </div>
 @endsection
