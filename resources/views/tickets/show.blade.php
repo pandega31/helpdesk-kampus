@@ -11,12 +11,12 @@
         Tiket #{{ $ticket->id }}
     </nav>
 
-    <div class="d-flex justify-content-between align-items-start mb-3">
-        <h1 class="h3 mb-0">{{ $ticket->judul }}</h1>
-        <div>
-            <span class="badge badge-{{ $ticket->prioritas }}">{{ ucfirst($ticket->prioritas) }}</span>
-            <span class="badge badge-{{ $ticket->status }}">{{ ucfirst($ticket->status) }}</span>
-        </div>
+    <div class="d-flex align-items-center gap-2">
+        <span class="badge badge-{{ $ticket->prioritas }}">{{ ucfirst($ticket->prioritas) }}</span>
+        <span class="badge badge-{{ $ticket->status }}">{{ ucfirst($ticket->status) }}</span>
+        <a href="{{ route('tickets.pdf', $ticket) }}" class="btn btn-sm btn-outline-secondary">
+            <i class="bi bi-download"></i> Download PDF
+        </a>
     </div>
 
     <div class="row g-4">

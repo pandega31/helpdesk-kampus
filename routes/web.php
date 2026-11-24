@@ -7,6 +7,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\TicketReplyController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\TicketPdfController;
 use Illuminate\Support\Facades\Route;
 
 // Hanya untuk tamu (belum login)
@@ -28,6 +29,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('tickets', TicketController::class)->only(['index', 'create', 'store', 'show']);
     Route::post('tickets/{ticket}/replies', [TicketReplyController::class, 'store'])
         ->name('tickets.replies.store');
+    Route::get('tickets/{ticket}/pdf', TicketPdfController::class)->name('tickets.pdf');
 
     Route::get('/keluhan-umum', [ComplaintController::class, 'index'])->name('complaints.index');
 
